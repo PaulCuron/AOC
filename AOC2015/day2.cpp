@@ -17,7 +17,7 @@ int main(){
 	int iRibbonLength; 	// each packe ribbon length
 	std::string sdim;	// each dimension of the box in string
 	int dim; 		// each dimension of the box
-	
+	int V; 			// volume of each box
 	if( file.is_open() ) {
 		
 		while (std::getline(file, line)) {
@@ -52,7 +52,7 @@ int main(){
 					lmin = std::min(iRibbonLength,lmin);
 			 		iPacketSurface += 2*iFaceSurface;
 				}
-				int V = dims[0]*dims[1]*dims[2]; // volume of the packet
+				V = dims[0]*dims[1]*dims[2]; // volume of the packet
 			}
 			length_tot += 2*lmin + V;
 			size_tot += iPacketSurface + smin;
