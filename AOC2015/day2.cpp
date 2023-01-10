@@ -8,15 +8,15 @@
 int main(){
 
 	std::ifstream file ("input2.txt");
-	std::string line;
-	std::size_t pos = 0;
-	int size_tot = 0;
-	int length_tot = 0;
-	int s; // each packet face surface
-	int S; // each packet total surface
-	int l; // each packe ribbon length
-	std::string sdim;
-	int dim; // each dimension
+	std::string line;	// line of the file
+	std::size_t pos = 0;	// position read in line
+	int size_tot = 0;	// total surface of paper (part 1 solution)
+	int length_tot = 0; 	// total length of ribbon (part 2 solution)
+	int iFaceSurface; 	// each packet face surface
+	int iPacketSurface; 	// each packet total surface
+	int iRibbonLength; 	// each packe ribbon length
+	std::string sdim;	// each dimension of the box in string
+	int dim; 		// each dimension of the box
 	
 	if( file.is_open() ) {
 		
@@ -26,36 +26,36 @@ int main(){
 			
 			// lines recovery
 			while (( pos = line.find('x')) != std::string::npos) {
-				sdim = line.substr(0,pos);
+				// line = yyxzzxww
+				sdim = line.substr(0,pos);	// sdim = yy
 				std::stringstream ss(sdim);
 				ss >> dim;
-				line.erase(0, pos + 1);
 				dims.push_back(dim);
+				line.erase(0, pos + 1);		// erases yyx
 			}
-
+			// line = ww
 			// converting string to int
 			std::stringstream ss(line);
                         ss >> dim;
 			dims.push_back(dim);
 
-
 			// surface and length calculations
-			S = 0;
+			iPacketSurface = 0;
 			int lmin = 2000000;
 			int smin = 2000000;
 			
 			for (int i = 0; i < dims.size()-1; i++) {
 				for (int j = i+1; j < dims.size(); j++){
-					s = dims[i]*dims[j]; // face surf
-					l = dims[i] + dims[j]; // face perimeter
-					smin = std::min(s,smin);
-					lmin = std::min(l,lmin);
-			 		S += 2*s;
+					iFaceSurface = dims[i]*dims[j]; // face surf
+					iRibbonLength = dims[i] + dims[j]; // face perimeter
+					smin = std::min(iFaceSurface,smin);
+					lmin = std::min(iRibbonLength,lmin);
+			 		iPacketSurface += 2*iFaceSurface;
 				}
 				int V = dims[0]*dims[1]*dims[2]; // volume of the packet
 			}
 			length_tot += 2*lmin + V;
-			size_tot += S + smin;
+			size_tot += iPacketSurface + smin;
 		}
 		std::cout << "Part 1: " << size_tot << "\n";	
 		std::cout << "Part 2: " << length_tot << "\n";
