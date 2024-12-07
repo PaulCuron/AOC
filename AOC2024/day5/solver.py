@@ -23,25 +23,11 @@ def reader(fname):
     return order_relation, updates
 
 def is_ordered(L, order_relation):
-    for x in L:
-        if not check_rules(x, L, order_relation):
+    for i,x in enumerate(L[:-1]):
+        if not is_lower(x,L[i+1],order_relation):
             return False
     return True
 
-def check_rules(x, L, order_relation):
-    if not x in order_relation:
-        return True
-    else:
-        rules = order_relation[x]
-        for rule in rules:
-            X,Y = rule.split("|")
-            if (x!=X and X in L):
-                if L.index(X)>L.index(x):
-                    return False
-            if (x!=Y and Y in L):
-                if L.index(x)>L.index(Y):
-                    return False
-        return True
 def is_lower(a,b, order_relation):
     if a in order_relation:
         for rule in order_relation[a]:
